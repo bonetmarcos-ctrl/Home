@@ -1,0 +1,18 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "allowJs": false,
+    "composite": false,
+    "declaration": false,
+    "noEmit": true,
+    "types": ["node", "vite/client", "vitest/globals", "cypress"]
+  },
+  "include": [
+    "apps/**/*.ts",
+    "apps/**/*.tsx",
+    "packages/**/*.ts",
+    "cypress/**/*.ts",
+    "*.config.ts"
+  ],
+  "exclude": ["**/dist/**", "**/coverage/**", "**/node_modules/**"]
+}

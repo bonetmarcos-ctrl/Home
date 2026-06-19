@@ -1,0 +1,39 @@
+{
+  "name": "habitacion-poblenou-suite",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": "20.x",
+    "npm": "10.x"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run build -w @habitacion/domain && concurrently -n api,web -c cyan,green \"npm run dev:api\" \"npm run dev:web\"",
+    "dev:api": "npm run dev -w @habitacion/api",
+    "dev:web": "npm run dev -w @habitacion/web",
+    "build": "npm run build -w @habitacion/domain && npm run build -w @habitacion/web && npm run build -w @habitacion/api",
+    "test": "npm run build -w @habitacion/domain && npm run test -w @habitacion/domain && npm run test -w @habitacion/api && npm run test -w @habitacion/web",
+    "test:coverage": "npm run build -w @habitacion/domain && npm run test:coverage -w @habitacion/domain && npm run test:coverage -w @habitacion/api && npm run test:coverage -w @habitacion/web",
+    "lint": "eslint .",
+    "e2e": "start-server-and-test \"npm run dev\" http://localhost:5173 \"cypress run\"",
+    "e2e:open": "start-server-and-test \"npm run dev\" http://localhost:5173 \"cypress open\"",
+    "check": "npm run lint && npm run test && npm run build && npm run e2e",
+    "start": "npm run start -w @habitacion/api"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "concurrently": "^9.2.1",
+    "cross-env": "^10.1.0",
+    "cypress": "^15.7.0",
+    "eslint": "^9.39.1",
+    "prettier": "^3.6.2",
+    "start-server-and-test": "^2.1.2",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.4",
+    "vitest": "^4.0.8"
+  }
+}
