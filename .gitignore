@@ -1,5 +1,7 @@
 # Dependencies
 node_modules/
+node_modules.bad*/
+.yarn-cache/
 
 # Build outputs
 dist/

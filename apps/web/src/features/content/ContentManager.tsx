@@ -47,6 +47,17 @@ function blankLocation(): LocationPoint {
   };
 }
 
+const serviceCategoryLabels: Record<Service["category"], string> = {
+  included: "Incluido",
+  extra: "Extra"
+};
+
+const serviceBillingLabels: Record<Service["billingType"], string> = {
+  included: "Sin cargo",
+  perStay: "Por estancia",
+  perNight: "Por noche"
+};
+
 export function ContentManager({
   state,
   onSaveService,
@@ -142,7 +153,7 @@ export function ContentManager({
               {state.services.map((service) => (
                 <div className="list-row" key={service.id}>
                   <span>{service.name.es}</span>
-                  <small>{service.category} · {service.billingType} · {formatMoney(service.price, currency)}</small>
+                  <small>{serviceCategoryLabels[service.category]} · {serviceBillingLabels[service.billingType]} · {formatMoney(service.price, currency)}</small>
                   <div className="row-actions">
                     <button className="icon-button" title="Editar servicio" type="button" onClick={() => setServiceDraft(service)}><Edit3 size={16} /></button>
                     <button className="icon-button" title="Eliminar servicio" type="button" onClick={() => onDeleteService(service.id)}><Trash2 size={16} /></button>
