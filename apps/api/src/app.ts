@@ -16,9 +16,10 @@ export interface CreateAppOptions {
   repository: StateRepository;
   userRepository?: UserRepository;
   authConfig: AuthConfig;
+  webDistPath?: string;
 }
 
-export function createApp({ repository, userRepository, authConfig }: CreateAppOptions) {
+export function createApp({ repository, userRepository, authConfig, webDistPath }: CreateAppOptions) {
   const app = express();
   const stateService = new AppStateService(repository);
   const authService = new AuthService(authConfig, userRepository);
@@ -41,7 +42,7 @@ export function createApp({ repository, userRepository, authConfig }: CreateAppO
 
   if (authConfig.nodeEnv === "production") {
     const apiDir = dirname(fileURLToPath(import.meta.url));
-    const webDist = resolve(apiDir, "../../../web/dist");
+    const webDist = webDistPath ?? resolve(apiDir, "../../web/dist");
     if (existsSync(webDist)) {
       app.use(express.static(webDist));
       app.get("*", (_request, response) => {

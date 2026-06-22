@@ -1,3 +1,6 @@
+import { mkdtempSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import request from "supertest";
 import { describe, expect, it } from "vitest";
 import { createApp } from "../../app.js";
@@ -5,7 +8,7 @@ import type { AuthConfig } from "../../application/AuthService.js";
 import { MemoryStateRepository } from "../../infrastructure/MemoryStateRepository.js";
 import { MemoryUserRepository } from "../../infrastructure/MemoryUserRepository.js";
 
-function makeApp() {
+function makeApp(options: { nodeEnv?: AuthConfig["nodeEnv"]; webDistPath?: string } = {}) {
   const authConfig: AuthConfig = {
     username: "admin",
     password: "admin",
@@ -15,13 +18,14 @@ function makeApp() {
     ttlSeconds: 604800,
     secureCookie: false,
     corsOrigin: "http://localhost:5173",
-    nodeEnv: "test"
+    nodeEnv: options.nodeEnv ?? "test"
   };
 
   return createApp({
     repository: new MemoryStateRepository(),
     userRepository: new MemoryUserRepository(),
-    authConfig
+    authConfig,
+    webDistPath: options.webDistPath
   });
 }
 
@@ -32,6 +36,19 @@ async function login(agent: request.SuperAgentTest) {
 describe("API HTTP", () => {
   it("serves health", async () => {
     await request(makeApp()).get("/api/health").expect(200, { ok: true });
+  });
+
+  it("serves the built web app in production", async () => {
+    const webDistPath = mkdtempSync(join(tmpdir(), "habitacion-web-dist-"));
+    writeFileSync(join(webDistPath, "index.html"), '<!doctype html><div id="root"></div>');
+
+    const app = makeApp({ nodeEnv: "production", webDistPath });
+
+    const root = await request(app).get("/").expect(200);
+    expect(root.text).toContain('id="root"');
+
+    const nestedRoute = await request(app).get("/reservas").expect(200);
+    expect(nestedRoute.text).toContain('id="root"');
   });
 
   it("handles auth login, me and logout", async () => {
