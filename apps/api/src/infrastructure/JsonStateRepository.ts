@@ -21,11 +21,13 @@ export class JsonStateRepository implements StateRepository {
     const key = ownerId || DEFAULT_OWNER;
 
     if (isStoredStates(stored)) {
-      const state = stored.owners[key] ?? stored.owners[DEFAULT_OWNER] ?? createInitialState();
-      if (!stored.owners[key]) {
-        stored.owners[key] = state;
-        await this.writeStored(stored);
+      if (Object.hasOwn(stored.owners, key)) {
+        return parseAppState(stored.owners[key]);
       }
+
+      const state = createInitialState();
+      stored.owners[key] = state;
+      await this.writeStored(stored);
       return parseAppState(state);
     }
 

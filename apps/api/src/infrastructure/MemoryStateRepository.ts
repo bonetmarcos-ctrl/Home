@@ -13,7 +13,7 @@ export class MemoryStateRepository implements StateRepository {
   async read(ownerId = DEFAULT_OWNER): Promise<AppState> {
     const key = ownerId || DEFAULT_OWNER;
     if (!this.states.has(key)) {
-      this.states.set(key, structuredClone(this.states.get(DEFAULT_OWNER)!));
+      this.states.set(key, parseAppState(createInitialState()));
     }
 
     return structuredClone(this.states.get(key)!);

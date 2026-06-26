@@ -1,8 +1,18 @@
+import { createInitialState } from "@habitacion/domain";
 import { describe, expect, it } from "vitest";
 import { AppStateService } from "./AppStateService.js";
 import { MemoryStateRepository } from "../infrastructure/MemoryStateRepository.js";
 
 describe("AppStateService", () => {
+  it("starts missing owners from initial state instead of default owner state", async () => {
+    const service = new AppStateService(new MemoryStateRepository());
+    const defaultState = await service.getState();
+    await service.replaceState({ ...defaultState, inquiries: [] });
+
+    const newOwnerState = await service.getState("new-owner");
+    expect(newOwnerState.inquiries).toEqual(createInitialState().inquiries);
+  });
+
   it("isolates state per owner", async () => {
     const service = new AppStateService(new MemoryStateRepository());
     const ownerA = await service.getState("owner-a");

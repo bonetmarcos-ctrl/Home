@@ -24,7 +24,7 @@ import { useAuth } from "./hooks/useAuth.js";
 export function App() {
   const auth = useAuth();
   const [activeView, setActiveView] = useState<ViewId>("dashboard");
-  const appState = useAppState(auth.status === "authenticated");
+  const appState = useAppState(auth.user?.ownerId);
 
   if (auth.status === "checking") {
     return <div className="loading-screen">Cargando sesion</div>;
