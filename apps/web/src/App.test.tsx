@@ -9,8 +9,11 @@ describe("promotional landing page", () => {
     expect(screen.getByRole("heading", { name: "Tu refugio en Barcelona" })).toBeInTheDocument();
     expect(screen.getByText("Habitación acogedora en piso familiar tranquilo, balcón con vistas verdes y acceso a los servicios del hogar.")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /Reservar por WhatsApp/i })).toHaveAttribute("href", expect.stringContaining("wa.me/34664158678"));
-    expect(screen.getAllByText(/80/).length).toBeGreaterThan(0);
-    expect(screen.getByText("Precio individual: consultar")).toBeInTheDocument();
+    expect(screen.getAllByText("Consultar").length).toBeGreaterThan(0);
+    expect(screen.queryByText(/80\s*€/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/precio/i)).not.toBeInTheDocument();
+    expect(screen.queryByText("ES / EN / IT")).not.toBeInTheDocument();
+    expect(screen.getByText("ES / EN")).toBeInTheDocument();
     expect(screen.queryByText("Balcón verde")).not.toBeInTheDocument();
     expect(screen.queryByText("Fotos reales")).not.toBeInTheDocument();
     expect(screen.getAllByText("Fotos").length).toBeGreaterThan(0);
@@ -41,7 +44,10 @@ describe("promotional landing page", () => {
     expect(screen.getByRole("heading", { name: "Your calm base in Barcelona" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Hi, we are Marcos and Sofi" })).toBeInTheDocument();
     expect(screen.getAllByText("Single or double bed").length).toBeGreaterThan(0);
-    expect(screen.getByText("Solo traveller rate: ask us")).toBeInTheDocument();
+    expect(screen.getAllByText("Ask us").length).toBeGreaterThan(0);
+    expect(screen.queryByText(/80\s*€/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/final price/i)).not.toBeInTheDocument();
+    expect(screen.queryByText("ES / EN / IT")).not.toBeInTheDocument();
     expect(screen.getByText("Extras on request")).toBeInTheDocument();
     expect(screen.queryByText("Nova Icaria Beach")).not.toBeInTheDocument();
     expect(screen.getByRole("link", { name: /Book on WhatsApp/i })).toHaveAttribute("href", expect.stringContaining("Hi%2C%20I%20am%20interested"));

@@ -53,7 +53,7 @@ export function createInitialState(): AppState {
         quietHoursStart: "22:00",
         quietHoursEnd: "08:00",
         contactPhone: "+34 664 158 678",
-        languages: ["es", "en", "it"],
+        languages: ["es", "en"],
         active: true
       }
     ],

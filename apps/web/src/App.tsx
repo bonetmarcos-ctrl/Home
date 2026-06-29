@@ -167,31 +167,25 @@ const ruleGroups: RuleGroup[] = [
   }
 ];
 
-function formatMoney(amount: number, currency: string) {
-  return currency === "EUR" ? `${amount} \u20ac` : `${amount} ${currency}`;
-}
-
-const coupleNightlyPrice = formatMoney(listing.baseNightlyRate, listing.currency);
-
 const statItems = [
   {
     icon: CalendarDays,
-    value: coupleNightlyPrice,
-    label: { es: "parejas / noche", en: "couples / night" }
+    value: { es: "Consultar", en: "Ask us" },
+    label: { es: "disponibilidad", en: "availability" }
   },
   {
     icon: BedDouble,
-    value: `${listing.maxGuests} max.`,
+    value: { es: `${listing.maxGuests} max.`, en: `${listing.maxGuests} max.` },
     label: { es: "huéspedes", en: "guests" }
   },
   {
     icon: Clock,
-    value: `${listing.minNights}+`,
+    value: { es: `${listing.minNights}+`, en: `${listing.minNights}+` },
     label: { es: "noche mínima", en: "minimum night" }
   },
   {
     icon: Languages,
-    value: listing.languages.map((language) => language.toUpperCase()).join(" / "),
+    value: { es: listing.languages.map((language) => language.toUpperCase()).join(" / "), en: listing.languages.map((language) => language.toUpperCase()).join(" / ") },
     label: { es: "idiomas", en: "languages" }
   }
 ];
@@ -225,7 +219,7 @@ const quickLinks: QuickLink[] = [
     href: "#contacto",
     icon: MessageCircle,
     label: { es: "Reserva directa", en: "Direct booking" },
-    detail: { es: "fechas y precio individual por WhatsApp", en: "dates and solo rate by WhatsApp" }
+    detail: { es: "fechas y disponibilidad por WhatsApp", en: "dates and availability on WhatsApp" }
   }
 ];
 
@@ -324,9 +318,9 @@ export function App() {
           {statItems.map((item) => {
             const Icon = item.icon;
             return (
-              <article className="stat-item" key={item.value}>
+              <article className="stat-item" key={item.label.es}>
                 <Icon aria-hidden="true" size={22} />
-                <strong>{item.value}</strong>
+                <strong>{localized(item.value, language)}</strong>
                 <span>{localized(item.label, language)}</span>
               </article>
             );
@@ -508,14 +502,14 @@ export function App() {
             <h2>{language === "es" ? "Cuéntanos tus fechas y te confirmamos disponibilidad" : "Send your dates and we will confirm availability"}</h2>
             <p>
               {language === "es"
-                ? "Te responderemos por WhatsApp con disponibilidad, precio final y cualquier detalle que necesites antes de reservar."
-                : "We will reply on WhatsApp with availability, final price and any details you need before booking."}
+                ? "Te responderemos por WhatsApp con disponibilidad y cualquier detalle que necesites antes de reservar."
+                : "We will reply on WhatsApp with availability and any details you need before booking."}
             </p>
           </div>
           <div className="contact-card">
-            <strong>{coupleNightlyPrice}</strong>
-            <span>{language === "es" ? "por noche para parejas" : "per night for couples"}</span>
-            <small>{language === "es" ? "Precio individual: consultar" : "Solo traveller rate: ask us"}</small>
+            <strong>{language === "es" ? "Consultar" : "Ask us"}</strong>
+            <span>{language === "es" ? "disponibilidad y condiciones" : "availability and details"}</span>
+            <small>{language === "es" ? "Te respondemos por WhatsApp" : "We reply on WhatsApp"}</small>
             <a className="primary-action" href={whatsappHref} target="_blank" rel="noreferrer">
               <MessageCircle aria-hidden="true" size={20} />
               {language === "es" ? "Enviar WhatsApp" : "Send WhatsApp"}

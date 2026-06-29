@@ -7,8 +7,11 @@ describe("Habitacion Poblenou", () => {
     cy.contains("h1", "Tu refugio en Barcelona").should("be.visible");
     cy.contains("Habitación acogedora en piso familiar tranquilo, balcón con vistas verdes y acceso a los servicios del hogar.").should("be.visible");
     cy.contains("a", "Reservar por WhatsApp").should("have.attr", "href").and("include", "wa.me/34664158678");
-    cy.contains("80").should("be.visible");
-    cy.contains("Precio individual: consultar").should("be.visible");
+    cy.contains("Consultar").should("be.visible");
+    cy.contains("80 €").should("not.exist");
+    cy.contains(/precio/i).should("not.exist");
+    cy.contains("ES / EN / IT").should("not.exist");
+    cy.contains("ES / EN").should("be.visible");
     cy.contains("Balcón verde").should("not.exist");
     cy.contains("Fotos reales").should("not.exist");
     cy.get(".gallery-section").contains("Fotos").should("be.visible");
@@ -37,7 +40,9 @@ describe("Habitacion Poblenou", () => {
     cy.contains("Hi, we are Marcos and Sofi").should("be.visible");
     cy.contains("Single or double bed").should("be.visible");
     cy.contains(/working remotely/i).should("not.exist");
-    cy.contains("Solo traveller rate: ask us").should("be.visible");
+    cy.contains("Ask us").should("be.visible");
+    cy.contains(/final price/i).should("not.exist");
+    cy.contains("ES / EN / IT").should("not.exist");
     cy.contains("Extras on request").should("be.visible");
     cy.contains("Nova Icaria Beach").should("not.exist");
     cy.contains("a", "Book on WhatsApp").should("have.attr", "href").and("include", "Hi%2C%20I%20am%20interested");
