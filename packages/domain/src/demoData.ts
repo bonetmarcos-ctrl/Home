@@ -3,7 +3,7 @@ import { appStateSchema, type AppState, type AvailabilityStatus } from "./schema
 export const BASE = {
   listingId: "room-poblenou",
   currency: "EUR",
-  defaultNightlyRate: 68,
+  defaultNightlyRate: 80,
   cleaningFee: 22,
   todayFixture: "2026-06-18"
 } as const;

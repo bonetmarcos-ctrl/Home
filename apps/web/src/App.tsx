@@ -159,11 +159,17 @@ const ruleGroups: RuleGroup[] = [
   }
 ];
 
+function formatMoney(amount: number, currency: string) {
+  return currency === "EUR" ? `${amount} \u20ac` : `${amount} ${currency}`;
+}
+
+const coupleNightlyPrice = formatMoney(listing.baseNightlyRate, listing.currency);
+
 const statItems = [
   {
     icon: CalendarDays,
-    value: `Desde ${listing.baseNightlyRate} ${listing.currency}`,
-    label: { es: "por noche", en: "per night" }
+    value: coupleNightlyPrice,
+    label: { es: "parejas / noche", en: "couples / night" }
   },
   {
     icon: BedDouble,
@@ -253,9 +259,9 @@ export function App() {
             <img className="hero-image-main" src="/images/room-03.jpg" alt={language === "es" ? "Salon luminoso con balcon" : "Bright living room with balcony"} />
             <img className="hero-image-overlap" src="/images/room-01.jpg" alt={language === "es" ? "Balcon con vistas verdes" : "Balcony with green views"} />
             <div className="price-badge">
-              <span>{language === "es" ? "Desde" : "From"}</span>
-              <strong>{listing.baseNightlyRate} {listing.currency}</strong>
-              <small>{language === "es" ? "noche" : "night"}</small>
+              <span>{language === "es" ? "Parejas" : "Couples"}</span>
+              <strong>{coupleNightlyPrice}</strong>
+              <small>{language === "es" ? "individual: consultar" : "solo: ask us"}</small>
             </div>
           </div>
         </section>
@@ -347,7 +353,7 @@ export function App() {
                         <strong>{localizedText(service.name, language)}</strong>
                         <span>{localizedText(service.description, language)}</span>
                       </div>
-                      <small>{service.price} {listing.currency}</small>
+                      <small>{formatMoney(service.price, listing.currency)}</small>
                     </article>
                   );
                 })}
@@ -426,8 +432,9 @@ export function App() {
             </p>
           </div>
           <div className="contact-card">
-            <strong>{listing.baseNightlyRate} {listing.currency}</strong>
-            <span>{language === "es" ? `por noche + ${listing.cleaningFee} ${listing.currency} limpieza` : `per night + ${listing.cleaningFee} ${listing.currency} cleaning`}</span>
+            <strong>{coupleNightlyPrice}</strong>
+            <span>{language === "es" ? `por noche para parejas + ${formatMoney(listing.cleaningFee, listing.currency)} limpieza` : `per night for couples + ${formatMoney(listing.cleaningFee, listing.currency)} cleaning`}</span>
+            <small>{language === "es" ? "Precio individual: consultar" : "Solo traveller rate: ask us"}</small>
             <a className="primary-action" href={whatsappHref} target="_blank" rel="noreferrer">
               <MessageCircle aria-hidden="true" size={20} />
               {language === "es" ? "Enviar WhatsApp" : "Send WhatsApp"}

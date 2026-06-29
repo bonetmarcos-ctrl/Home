@@ -8,6 +8,8 @@ describe("promotional landing page", () => {
     render(<App />);
     expect(screen.getByRole("heading", { name: "Habitacion en Poblenou" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /Reservar por WhatsApp/i })).toHaveAttribute("href", expect.stringContaining("wa.me/34664158678"));
+    expect(screen.getAllByText(/80/).length).toBeGreaterThan(0);
+    expect(screen.getByText("Precio individual: consultar")).toBeInTheDocument();
     expect(screen.getByText("Un piso tranquilo, luminoso y bien conectado")).toBeInTheDocument();
     expect(screen.getByText("Lo esencial incluido y extras si los necesitas")).toBeInTheDocument();
   });
@@ -19,6 +21,7 @@ describe("promotional landing page", () => {
     await user.click(screen.getByRole("button", { name: "EN" }));
 
     expect(screen.getByRole("heading", { name: "Room in Poblenou" })).toBeInTheDocument();
+    expect(screen.getByText("Solo traveller rate: ask us")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /Book on WhatsApp/i })).toHaveAttribute("href", expect.stringContaining("Hi%2C%20I%20am%20interested"));
   });
 });
