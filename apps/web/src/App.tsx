@@ -101,15 +101,7 @@ const galleryImages: GalleryImage[] = [
       es: "Detalle de escritorio y cama en la habitación",
       en: "Desk and bed detail in the room"
     },
-    label: { es: "Escritorio para trabajar", en: "Desk for work" }
-  },
-  {
-    src: "/images/room-07.jpg",
-    alt: {
-      es: "Cama preparada con estanterias y plantas",
-      en: "Prepared bed with shelves and plants"
-    },
-    label: { es: "Descanso tranquilo", en: "Calm rest" }
+    label: { es: "Habitación con escritorio", en: "Room with desk" }
   }
 ];
 

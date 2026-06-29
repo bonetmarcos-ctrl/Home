@@ -18,6 +18,8 @@ describe("promotional landing page", () => {
     expect(screen.queryByText(/limpieza/i)).not.toBeInTheDocument();
     expect(screen.getByText("Un piso luminoso para sentirse cerca de casa")).toBeInTheDocument();
     expect(screen.getAllByText("Salón compartido").length).toBeGreaterThan(0);
+    expect(screen.getByText("Habitación con escritorio")).toBeInTheDocument();
+    expect(screen.queryByText("Descanso tranquilo")).not.toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Habitación privada con cama simple o doble" })).toBeInTheDocument();
     expect(screen.getAllByText("Cama simple o doble").length).toBeGreaterThan(0);
     expect(screen.getByRole("img", { name: "Habitación preparada con cama doble" })).toHaveAttribute("src", "/images/room-double.jpg");

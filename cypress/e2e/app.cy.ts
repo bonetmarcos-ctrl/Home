@@ -17,6 +17,9 @@ describe("Habitacion Poblenou", () => {
     cy.get('img[src="/images/room-01.jpg"]').should("be.visible");
     cy.contains("Un piso luminoso para sentirse cerca de casa").should("be.visible");
     cy.contains("Salón compartido").should("be.visible");
+    cy.get(".gallery-section").contains("Habitación con escritorio").should("be.visible");
+    cy.get(".gallery-section").should("not.contain", "Descanso tranquilo");
+    cy.get(".gallery-section").should("not.contain", "Escritorio para trabajar");
     cy.contains("Habitación privada con cama simple o doble").should("be.visible");
     cy.contains("Cama simple o doble").should("be.visible");
     cy.get('img[src="/images/room-double.jpg"]').should("be.visible");
