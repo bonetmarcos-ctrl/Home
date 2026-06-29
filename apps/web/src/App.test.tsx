@@ -27,6 +27,7 @@ describe("promotional landing page", () => {
     expect(screen.getByText("Extras bajo pedido")).toBeInTheDocument();
     expect(screen.getByText("Disponibles si los necesitas. Te confirmamos los detalles por WhatsApp.")).toBeInTheDocument();
     expect(screen.getByText("Recogida en aeropuerto").closest("article")).not.toHaveTextContent("35");
+    expect(screen.queryByText("Playa Nova Icaria")).not.toBeInTheDocument();
   });
 
   it("switches language to English", async () => {
@@ -40,6 +41,7 @@ describe("promotional landing page", () => {
     expect(screen.getAllByText("Single or double bed").length).toBeGreaterThan(0);
     expect(screen.getByText("Solo traveller rate: ask us")).toBeInTheDocument();
     expect(screen.getByText("Extras on request")).toBeInTheDocument();
+    expect(screen.queryByText("Nova Icaria Beach")).not.toBeInTheDocument();
     expect(screen.getByRole("link", { name: /Book on WhatsApp/i })).toHaveAttribute("href", expect.stringContaining("Hi%2C%20I%20am%20interested"));
   });
 });

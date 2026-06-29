@@ -476,12 +476,15 @@ export function App() {
           <div className="nearby-panel">
             <h3>{language === "es" ? "Cerca de casa" : "Nearby"}</h3>
             <div className="nearby-list">
-              {nearbyLocations.map((location) => (
-                <article key={location.id}>
-                  <span>{localizedText(location.name, language)}</span>
-                  <strong>{localizedText(location.detail, language)}</strong>
-                </article>
-              ))}
+              {nearbyLocations.map((location) => {
+                const locationDetail = localizedText(location.detail, language);
+                return (
+                  <article key={location.id}>
+                    <span>{localizedText(location.name, language)}</span>
+                    {locationDetail ? <strong>{locationDetail}</strong> : null}
+                  </article>
+                );
+              })}
             </div>
           </div>
         </section>

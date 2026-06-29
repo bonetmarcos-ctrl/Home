@@ -385,10 +385,10 @@ export function createInitialState(): AppState {
         id: "nova-icaria",
         kind: "distance",
         name: text("Playa Nova Icaria", "Nova Icaria Beach"),
-        detail: text("18 min a pie", "18 min walk"),
+        detail: text("", ""),
         minutes: 18,
         mode: "walk",
-        active: true
+        active: false
       },
       {
         id: "sagrada-familia",

@@ -243,9 +243,10 @@ h3 { font-size: 18px; }
 .extra-card strong { display: block; color: white; }
 .extra-card span { display: block; color: #c5d6cc; font-size: 14px; margin-top: 3px; }
 
-.location-section { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(300px, .9fr); gap: 18px; background: white; }
+.location-section { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(300px, .9fr); align-items: stretch; gap: 18px; background: white; }
+.location-copy { display: flex; flex-direction: column; }
 .location-copy > p:not(.eyebrow) { color: var(--muted); line-height: 1.8; max-width: 720px; font-size: 17px; }
-.transport-grid { display: grid; gap: 10px; margin-top: 28px; }
+.transport-grid { flex: 1; display: grid; grid-template-rows: repeat(4, minmax(82px, 1fr)); gap: 10px; margin-top: 28px; }
 .transport-card { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 13px; min-height: 82px; padding: 16px; border: 1px solid var(--line); border-radius: 8px; background: #fbfaf6; }
 .transport-card svg { color: var(--clay); }
 .transport-card strong { display: block; color: var(--ink); }

@@ -25,6 +25,7 @@ describe("Habitacion Poblenou", () => {
     cy.get('img[src="/images/hosts.jpg"]').should("be.visible");
     cy.contains("Extras bajo pedido").should("be.visible");
     cy.contains("article", "Recogida en aeropuerto").should("not.contain", "35");
+    cy.contains("Playa Nova Icaria").should("not.exist");
     cy.contains("Conectado con toda Barcelona").should("be.visible");
 
     cy.contains("button", "EN").click();
@@ -35,6 +36,7 @@ describe("Habitacion Poblenou", () => {
     cy.contains(/working remotely/i).should("not.exist");
     cy.contains("Solo traveller rate: ask us").should("be.visible");
     cy.contains("Extras on request").should("be.visible");
+    cy.contains("Nova Icaria Beach").should("not.exist");
     cy.contains("a", "Book on WhatsApp").should("have.attr", "href").and("include", "Hi%2C%20I%20am%20interested");
   });
 });
