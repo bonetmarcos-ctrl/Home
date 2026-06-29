@@ -14,6 +14,12 @@ describe("promotional landing page", () => {
     expect(screen.queryByText("Balcón verde")).not.toBeInTheDocument();
     expect(screen.queryByText(/limpieza/i)).not.toBeInTheDocument();
     expect(screen.getByText("Un piso luminoso para sentirse cerca de casa")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Habitación privada con cama simple o doble" })).toBeInTheDocument();
+    expect(screen.getAllByText("Cama simple o doble").length).toBeGreaterThan(0);
+    expect(screen.getByRole("img", { name: "Habitación preparada con cama doble" })).toHaveAttribute("src", "/images/room-double.jpg");
+    expect(screen.getByRole("heading", { name: "Hola, somos Marcos y Sofi" })).toBeInTheDocument();
+    expect(screen.getByText("Esperamos darte la bienvenida pronto.")).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "Los anfitriones en un paisaje de viñedos" })).toHaveAttribute("src", "/images/hosts.jpg");
     expect(screen.getByText("Extras bajo pedido")).toBeInTheDocument();
     expect(screen.getByText("Disponibles si los necesitas. Te confirmamos los detalles por WhatsApp.")).toBeInTheDocument();
     expect(screen.getByText("Recogida en aeropuerto").closest("article")).not.toHaveTextContent("35");
@@ -26,6 +32,8 @@ describe("promotional landing page", () => {
     await user.click(screen.getByRole("button", { name: "EN" }));
 
     expect(screen.getByRole("heading", { name: "Your calm base in Barcelona" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Hi, we are Marcos and Sofi" })).toBeInTheDocument();
+    expect(screen.getAllByText("Single or double bed").length).toBeGreaterThan(0);
     expect(screen.getByText("Solo traveller rate: ask us")).toBeInTheDocument();
     expect(screen.getByText("Extras on request")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /Book on WhatsApp/i })).toHaveAttribute("href", expect.stringContaining("Hi%2C%20I%20am%20interested"));

@@ -70,6 +70,15 @@ const galleryImages: GalleryImage[] = [
     layout: "tall"
   },
   {
+    src: "/images/room-double.jpg",
+    alt: {
+      es: "Habitación preparada con cama doble y escritorio",
+      en: "Room arranged with a double bed and desk"
+    },
+    label: { es: "Cama simple o doble", en: "Single or double bed" },
+    layout: "wide"
+  },
+  {
     src: "/images/room-04.jpg",
     alt: {
       es: "Habitación privada con cama individual y escritorio",
@@ -206,7 +215,13 @@ const quickLinks: QuickLink[] = [
     href: "#estancia",
     icon: BedDouble,
     label: { es: "La estancia", en: "The stay" },
-    detail: { es: "descanso, escritorio y ambiente de hogar", en: "rest, desk and a homely feel" }
+    detail: { es: "cama simple o doble y escritorio", en: "single or double bed and desk" }
+  },
+  {
+    href: "#anfitriones",
+    icon: ShieldCheck,
+    label: { es: "Anfitriones", en: "Hosts" },
+    detail: { es: "Marcos y Sofi te reciben", en: "Marcos and Sofi welcome you" }
   },
   {
     href: "#servicios",
@@ -253,6 +268,7 @@ export function App() {
         <nav className="nav-links">
           <a href="#galeria">{language === "es" ? "Fotos" : "Photos"}</a>
           <a href="#estancia">{language === "es" ? "Estancia" : "Stay"}</a>
+          <a href="#anfitriones">{language === "es" ? "Anfitriones" : "Hosts"}</a>
           <a href="#servicios">{language === "es" ? "Servicios" : "Services"}</a>
           <a href="#ubicacion">{language === "es" ? "Ubicación" : "Location"}</a>
           <a href="#contacto">{language === "es" ? "Contacto" : "Contact"}</a>
@@ -348,28 +364,50 @@ export function App() {
 
         <section className="section intro-section" id="estancia">
           <div className="intro-media">
-            <img src="/images/room-05.jpg" alt={language === "es" ? "Habitación privada con escritorio" : "Private room with desk"} loading="lazy" />
+            <img src="/images/room-double.jpg" alt={language === "es" ? "Habitación preparada con cama doble" : "Room prepared with a double bed"} loading="lazy" />
           </div>
           <div className="intro-copy">
             <p className="eyebrow">{language === "es" ? "La estancia" : "The stay"}</p>
-            <h2>{language === "es" ? "Habitación privada con escritorio y ambiente de hogar" : "Private room with a desk and a lived-in home feel"}</h2>
+            <h2>{language === "es" ? <>Habitación privada con cama <em>simple o doble</em></> : <>Private room with a <em>single or double bed</em></>}</h2>
             <p>
               {language === "es"
-                ? "Ideal para visitar Barcelona unos días, trabajar en remoto o descansar cerca del mar y del centro. La habitación está en un piso familiar cuidado, con salón, cocina y balcón compartidos."
-                : "Ideal for visiting Barcelona for a few days, working remotely or resting close to the sea and the city centre. The room is in a well-kept family flat with a shared living room, kitchen and balcony."}
+                ? "Ideal para visitar Barcelona unos días, trabajar en remoto o descansar cerca del mar y del centro. La habitación puede prepararse con cama simple o doble según la estancia, dentro de un piso familiar cuidado con salón, cocina y balcón compartidos."
+                : "Ideal for visiting Barcelona for a few days, working remotely or resting close to the sea and the city centre. The room can be prepared with a single or double bed depending on the stay, inside a well-kept family flat with a shared living room, kitchen and balcony."}
             </p>
             <div className="soft-list">
               <span><Laptop aria-hidden="true" size={18} />{language === "es" ? "Escritorio para trabajar" : "Desk for remote work"}</span>
+              <span><BedDouble aria-hidden="true" size={18} />{language === "es" ? "Cama simple o doble" : "Single or double bed"}</span>
               <span><Waves aria-hidden="true" size={18} />{language === "es" ? "Playa a 15 minutos" : "Beach 15 minutes away"}</span>
               <span><Train aria-hidden="true" size={18} />{language === "es" ? "Metro, tranvía y bus cerca" : "Metro, tram and bus nearby"}</span>
             </div>
           </div>
         </section>
 
+        <section className="section hosts-section" id="anfitriones">
+          <div className="hosts-copy">
+            <p className="eyebrow">{language === "es" ? "Tus anfitriones" : "Your hosts"}</p>
+            <h2>{language === "es" ? <>Hola, somos <em>Marcos y Sofi</em></> : <>Hi, we are <em>Marcos and Sofi</em></>}</h2>
+            <p>
+              {language === "es"
+                ? "Vivimos en Barcelona y nos encanta conocer gente de diferentes partes del mundo. Queremos que quienes se alojan en casa se sientan cómodos, relajados y bien acompañados durante su estancia."
+                : "We live in Barcelona and love meeting people from different parts of the world. We want guests at home to feel comfortable, relaxed and well looked after during their stay."}
+            </p>
+            <p>
+              {language === "es"
+                ? "Mantenemos un ambiente tranquilo, limpio y respetuoso, ideal tanto para descansar como para trabajar o disfrutar de la ciudad. También podemos ayudarte con recomendaciones locales de transporte, restaurantes, playas y rincones para descubrir."
+                : "We keep a calm, clean and respectful atmosphere, ideal for resting, working or enjoying the city. We can also share local recommendations for transport, restaurants, beaches and places to discover."}
+            </p>
+            <div className="host-signature">{language === "es" ? "Esperamos darte la bienvenida pronto." : "We hope to welcome you soon."}</div>
+          </div>
+          <figure className="hosts-photo">
+            <img src="/images/hosts.jpg" alt={language === "es" ? "Los anfitriones en un paisaje de viñedos" : "The hosts in a vineyard landscape"} loading="lazy" />
+          </figure>
+        </section>
+
         <section className="section services-section" id="servicios">
           <div className="section-heading compact">
             <p className="eyebrow">{language === "es" ? "Servicios" : "Services"}</p>
-            <h2>{language === "es" ? "Lo esencial incluido y extras si los necesitas" : "Essentials included, extras when needed"}</h2>
+            <h2>{language === "es" ? <>Incluido y <em>servicios extra</em></> : <>Included and <em>optional extras</em></>}</h2>
           </div>
           <div className="service-layout">
             <div className="service-panel included-panel">
@@ -419,7 +457,7 @@ export function App() {
         <section className="section location-section" id="ubicacion">
           <div className="location-copy">
             <p className="eyebrow">{language === "es" ? "Ubicación" : "Location"}</p>
-            <h2>{language === "es" ? "Poblenou: playa, ciudad y transporte a mano" : "Poblenou: beach, city and transport close by"}</h2>
+            <h2>{language === "es" ? <>Conectado con <em>toda Barcelona</em></> : <>Connected to <em>all of Barcelona</em></>}</h2>
             <p>
               {language === "es"
                 ? "La zona de Sardenya y Llull permite moverse fácil por Barcelona: Ciutadella, Bogatell, Glòries y el centro quedan muy cerca."
@@ -457,7 +495,7 @@ export function App() {
         <section className="section rules-section">
           <div className="section-heading compact">
             <p className="eyebrow">{language === "es" ? "Convivencia" : "House rules"}</p>
-            <h2>{language === "es" ? "Un ambiente tranquilo para descansar" : "A calm place to rest"}</h2>
+            <h2>{language === "es" ? <>Para una estancia <em>agradable</em></> : <>For a <em>pleasant</em> stay</>}</h2>
           </div>
           <div className="rules-grid">
             {ruleGroups.map((group) => {

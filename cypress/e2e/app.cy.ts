@@ -13,13 +13,21 @@ describe("Habitacion Poblenou", () => {
     cy.contains("limpieza").should("not.exist");
     cy.get('img[src="/images/room-01.jpg"]').should("be.visible");
     cy.contains("Un piso luminoso para sentirse cerca de casa").should("be.visible");
+    cy.contains("Habitación privada con cama simple o doble").should("be.visible");
+    cy.contains("Cama simple o doble").should("be.visible");
+    cy.get('img[src="/images/room-double.jpg"]').should("be.visible");
+    cy.contains("Hola, somos Marcos y Sofi").should("be.visible");
+    cy.contains("Esperamos darte la bienvenida pronto.").should("be.visible");
+    cy.get('img[src="/images/hosts.jpg"]').should("be.visible");
     cy.contains("Extras bajo pedido").should("be.visible");
     cy.contains("article", "Recogida en aeropuerto").should("not.contain", "35");
-    cy.contains("Poblenou: playa, ciudad y transporte a mano").should("be.visible");
+    cy.contains("Conectado con toda Barcelona").should("be.visible");
 
     cy.contains("button", "EN").click();
 
     cy.contains("h1", "Your calm base in Barcelona").should("be.visible");
+    cy.contains("Hi, we are Marcos and Sofi").should("be.visible");
+    cy.contains("Single or double bed").should("be.visible");
     cy.contains("Solo traveller rate: ask us").should("be.visible");
     cy.contains("Extras on request").should("be.visible");
     cy.contains("a", "Book on WhatsApp").should("have.attr", "href").and("include", "Hi%2C%20I%20am%20interested");
