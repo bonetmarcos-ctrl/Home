@@ -1,95 +1,441 @@
-import type {
-  AvailabilityDay,
-  Booking,
-  HouseRule,
-  Inquiry,
-  Listing,
-  LocationPoint,
-  Service,
-  SiteSetting
-} from "@habitacion/domain";
+import { createInitialState } from "@habitacion/domain";
+import {
+  ArrowRight,
+  BedDouble,
+  Bus,
+  CalendarDays,
+  Car,
+  Check,
+  Clock,
+  Coffee,
+  CookingPot,
+  Home,
+  KeyRound,
+  Languages,
+  Laptop,
+  MapPin,
+  MessageCircle,
+  Moon,
+  Plane,
+  ShieldCheck,
+  Train,
+  Utensils,
+  WashingMachine,
+  Waves,
+  Wifi,
+  Wind
+} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { useState } from "react";
-import { LoginView } from "./components/LoginView.js";
-import { Shell } from "./components/Shell.js";
-import type { ViewId } from "./constants/navigation.js";
-import { AvailabilityManager } from "./features/availability/AvailabilityManager.js";
-import { BookingsManager } from "./features/bookings/BookingsManager.js";
-import { ContentManager } from "./features/content/ContentManager.js";
-import { Dashboard } from "./features/dashboard/Dashboard.js";
-import { InquiriesManager } from "./features/inquiries/InquiriesManager.js";
-import { SettingsManager } from "./features/settings/SettingsManager.js";
-import { useAppState } from "./hooks/useAppState.js";
-import { useAuth } from "./hooks/useAuth.js";
+
+type Language = "es" | "en";
+type Copy = Record<Language, string>;
+
+interface GalleryImage {
+  src: string;
+  alt: Copy;
+  label: Copy;
+  layout?: "wide" | "tall";
+}
+
+interface RuleGroup {
+  icon: LucideIcon;
+  title: Copy;
+  items: Copy[];
+}
+
+const appState = createInitialState();
+const listing = (appState.listings.find((candidate) => candidate.active) ?? appState.listings[0])!;
+const siteSetting = (appState.siteSettings.find((candidate) => candidate.id === "main") ?? appState.siteSettings[0])!;
+
+if (!listing || !siteSetting) {
+  throw new Error("Missing public listing data");
+}
+
+const galleryImages: GalleryImage[] = [
+  {
+    src: "/images/room-01.jpg",
+    alt: {
+      es: "Balcon con mesa y vistas a arboles en Poblenou",
+      en: "Balcony with table and leafy views in Poblenou"
+    },
+    label: { es: "Balcon con vistas verdes", en: "Balcony with green views" },
+    layout: "tall"
+  },
+  {
+    src: "/images/room-04.jpg",
+    alt: {
+      es: "Habitacion privada con cama individual y escritorio",
+      en: "Private room with single bed and desk"
+    },
+    label: { es: "Habitacion privada", en: "Private room" }
+  },
+  {
+    src: "/images/room-03.jpg",
+    alt: {
+      es: "Salon luminoso con sofa y salida al balcon",
+      en: "Bright living room with sofa and balcony access"
+    },
+    label: { es: "Salon compartido", en: "Shared living room" },
+    layout: "wide"
+  },
+  {
+    src: "/images/room-05.jpg",
+    alt: {
+      es: "Detalle de escritorio y cama en la habitacion",
+      en: "Desk and bed detail in the room"
+    },
+    label: { es: "Escritorio para trabajar", en: "Desk for work" }
+  },
+  {
+    src: "/images/room-07.jpg",
+    alt: {
+      es: "Cama preparada con estanterias y plantas",
+      en: "Prepared bed with shelves and plants"
+    },
+    label: { es: "Descanso tranquilo", en: "Calm rest" }
+  }
+];
+
+const serviceIcons: Record<string, LucideIcon> = {
+  wifi: Wifi,
+  linen: BedDouble,
+  "coffee-tea": Coffee,
+  kitchen: CookingPot,
+  balcony: Home,
+  climate: Wind,
+  elevator: ArrowRight,
+  "safe-area": ShieldCheck,
+  "airport-pickup": Plane,
+  "car-rental-help": Car,
+  laundry: WashingMachine
+};
+
+const locationIcons: Record<string, LucideIcon> = {
+  metro: Train,
+  tram: Train,
+  bus: Bus,
+  train: Train,
+  walk: Waves,
+  other: Plane
+};
+
+const ruleGroups: RuleGroup[] = [
+  {
+    icon: Moon,
+    title: { es: "Descanso", en: "Rest" },
+    items: [
+      { es: "Silencio de 22:00 a 08:00", en: "Quiet hours from 22:00 to 08:00" },
+      { es: "No se permiten fiestas ni eventos", en: "No parties or events" },
+      { es: "Respeto hacia vecinos y comunidad", en: "Respect for neighbours and the building" }
+    ]
+  },
+  {
+    icon: ShieldCheck,
+    title: { es: "Convivencia", en: "Shared Living" },
+    items: [
+      { es: "No fumar en el interior", en: "No smoking inside" },
+      { es: "No visitas sin autorizacion previa", en: "No visitors without prior authorization" },
+      { es: "Solo huespedes registrados", en: "Registered guests only" }
+    ]
+  },
+  {
+    icon: Utensils,
+    title: { es: "Cuidado", en: "Care" },
+    items: [
+      { es: "Mantener limpias las zonas comunes", en: "Keep shared areas clean" },
+      { es: "Lavar platos y utensilios tras usarlos", en: "Wash dishes and utensils after use" },
+      { es: "Cuidar mobiliario y objetos del piso", en: "Take care of furniture and apartment items" }
+    ]
+  },
+  {
+    icon: KeyRound,
+    title: { es: "Llegada", en: "Arrival" },
+    items: [
+      { es: "Check-out antes de las 11:00", en: "Check-out before 11:00" },
+      { es: "Check-in flexible segun disponibilidad", en: "Flexible check-in subject to availability" },
+      { es: "La perdida de llaves puede tener coste", en: "Lost keys may involve a replacement cost" }
+    ]
+  }
+];
+
+const statItems = [
+  {
+    icon: CalendarDays,
+    value: `Desde ${listing.baseNightlyRate} ${listing.currency}`,
+    label: { es: "por noche", en: "per night" }
+  },
+  {
+    icon: BedDouble,
+    value: `${listing.maxGuests} max.`,
+    label: { es: "huespedes", en: "guests" }
+  },
+  {
+    icon: Clock,
+    value: `${listing.minNights}+`,
+    label: { es: "noche minima", en: "minimum night" }
+  },
+  {
+    icon: Languages,
+    value: listing.languages.map((language) => language.toUpperCase()).join(" / "),
+    label: { es: "idiomas", en: "languages" }
+  }
+];
+
+function localized(copy: Copy, language: Language) {
+  return copy[language];
+}
+
+function localizedText(copy: { es: string; en: string }, language: Language) {
+  return copy[language];
+}
 
 export function App() {
-  const auth = useAuth();
-  const [activeView, setActiveView] = useState<ViewId>("dashboard");
-  const appState = useAppState(auth.user?.ownerId);
-
-  if (auth.status === "checking") {
-    return <div className="loading-screen">Cargando sesion</div>;
-  }
-
-  if (!auth.user) {
-    return <LoginView error={auth.error} onLogin={auth.login} onRegister={auth.register} />;
-  }
-
-  const state = appState.state;
-  const content: Record<ViewId, JSX.Element> = {
-    dashboard: <Dashboard state={state} />,
-    availability: (
-      <AvailabilityManager
-        state={state}
-        onChange={(days: AvailabilityDay[]) => appState.replaceCollection("availabilityDays", days)}
-      />
-    ),
-    bookings: (
-      <BookingsManager
-        state={state}
-        onSave={(booking: Booking) => appState.upsertItem("bookings", booking)}
-        onDelete={(id) => appState.deleteItem("bookings", id)}
-      />
-    ),
-    inquiries: (
-      <InquiriesManager
-        state={state}
-        onSave={(inquiry: Inquiry) => appState.upsertItem("inquiries", inquiry)}
-        onDelete={(id) => appState.deleteItem("inquiries", id)}
-      />
-    ),
-    content: (
-      <ContentManager
-        state={state}
-        onSaveService={(service: Service) => appState.upsertItem("services", service)}
-        onDeleteService={(id) => appState.deleteItem("services", id)}
-        onSaveHouseRule={(rule: HouseRule) => appState.upsertItem("houseRules", rule)}
-        onDeleteHouseRule={(id) => appState.deleteItem("houseRules", id)}
-        onSaveLocation={(location: LocationPoint) => appState.upsertItem("locations", location)}
-        onDeleteLocation={(id) => appState.deleteItem("locations", id)}
-      />
-    ),
-    settings: (
-      <SettingsManager
-        state={state}
-        onSaveListing={(listing: Listing) => appState.upsertItem("listings", listing)}
-        onDeleteListing={(id) => appState.deleteItem("listings", id)}
-        onSaveSiteSetting={(setting: SiteSetting) => appState.upsertItem("siteSettings", setting)}
-        onDeleteSiteSetting={(id) => appState.deleteItem("siteSettings", id)}
-      />
-    )
-  };
+  const defaultLanguage: Language = siteSetting.defaultLanguage === "en" ? "en" : "es";
+  const [language, setLanguage] = useState<Language>(defaultLanguage);
+  const includedServices = appState.services.filter((service) => service.active && service.category === "included").slice(0, 8);
+  const extraServices = appState.services.filter((service) => service.active && service.category === "extra");
+  const transportLocations = appState.locations.filter((location) => location.active && location.kind === "transport").slice(0, 4);
+  const nearbyLocations = appState.locations.filter((location) => location.active && location.kind !== "transport").slice(0, 8);
+  const whatsappNumber = listing.contactPhone.replace(/\D/g, "");
+  const whatsappHref = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(localizedText(siteSetting.whatsappTemplate, language))}`;
 
   return (
-    <Shell
-      activeView={activeView}
-      syncStatus={appState.syncStatus}
-      user={auth.user}
-      onNavigate={setActiveView}
-      onLogout={auth.logout}
-      onReset={appState.reset}
-    >
-      {appState.error ? <p className="sync-warning">{appState.error}</p> : null}
-      {content[activeView]}
-    </Shell>
+    <div className="site-shell">
+      <header className="site-header" aria-label={language === "es" ? "Navegacion principal" : "Main navigation"}>
+        <a className="brand" href="#inicio" aria-label={siteSetting.brandName}>
+          <span className="brand-mark">HP</span>
+          <span>
+            <strong>{siteSetting.brandName}</strong>
+            <small>{listing.neighborhood}, {listing.city}</small>
+          </span>
+        </a>
+        <nav className="nav-links">
+          <a href="#galeria">{language === "es" ? "Fotos" : "Photos"}</a>
+          <a href="#servicios">{language === "es" ? "Servicios" : "Services"}</a>
+          <a href="#ubicacion">{language === "es" ? "Ubicacion" : "Location"}</a>
+          <a href="#contacto">{language === "es" ? "Contacto" : "Contact"}</a>
+        </nav>
+        <div className="header-actions">
+          <div className="language-toggle" aria-label={language === "es" ? "Cambiar idioma" : "Change language"}>
+            <button className={language === "es" ? "active" : ""} type="button" aria-pressed={language === "es"} onClick={() => setLanguage("es")}>ES</button>
+            <button className={language === "en" ? "active" : ""} type="button" aria-pressed={language === "en"} onClick={() => setLanguage("en")}>EN</button>
+          </div>
+          <a className="header-cta" href={whatsappHref} target="_blank" rel="noreferrer">
+            <MessageCircle aria-hidden="true" size={18} />
+            WhatsApp
+          </a>
+        </div>
+      </header>
+
+      <main>
+        <section className="hero" id="inicio">
+          <div className="hero-copy">
+            <p className="eyebrow">{language === "es" ? "Alquiler por dias en Barcelona" : "Daily rental in Barcelona"}</p>
+            <h1>{localizedText(listing.name, language)}</h1>
+            <p className="hero-lede">{localizedText(listing.description, language)}</p>
+            <div className="hero-actions">
+              <a className="primary-action" href={whatsappHref} target="_blank" rel="noreferrer">
+                <MessageCircle aria-hidden="true" size={20} />
+                {language === "es" ? "Reservar por WhatsApp" : "Book on WhatsApp"}
+              </a>
+              <a className="secondary-action" href="#galeria">
+                {language === "es" ? "Ver fotos" : "View photos"}
+                <ArrowRight aria-hidden="true" size={18} />
+              </a>
+            </div>
+            <div className="hero-note">
+              <MapPin aria-hidden="true" size={18} />
+              <span>{listing.addressHint} · {listing.neighborhood} · {listing.city}</span>
+            </div>
+          </div>
+          <div className="hero-media" aria-label={language === "es" ? "Fotos destacadas del piso" : "Featured apartment photos"}>
+            <img className="hero-image-main" src="/images/room-03.jpg" alt={language === "es" ? "Salon luminoso con balcon" : "Bright living room with balcony"} />
+            <img className="hero-image-overlap" src="/images/room-01.jpg" alt={language === "es" ? "Balcon con vistas verdes" : "Balcony with green views"} />
+            <div className="price-badge">
+              <span>{language === "es" ? "Desde" : "From"}</span>
+              <strong>{listing.baseNightlyRate} {listing.currency}</strong>
+              <small>{language === "es" ? "noche" : "night"}</small>
+            </div>
+          </div>
+        </section>
+
+        <section className="stats-strip" aria-label={language === "es" ? "Datos destacados" : "Highlights"}>
+          {statItems.map((item) => {
+            const Icon = item.icon;
+            return (
+              <article className="stat-item" key={item.value}>
+                <Icon aria-hidden="true" size={22} />
+                <strong>{item.value}</strong>
+                <span>{localized(item.label, language)}</span>
+              </article>
+            );
+          })}
+        </section>
+
+        <section className="section gallery-section" id="galeria">
+          <div className="section-heading">
+            <p className="eyebrow">{language === "es" ? "Fotos reales" : "Real photos"}</p>
+            <h2>{language === "es" ? "Un piso tranquilo, luminoso y bien conectado" : "A calm, bright and well-connected flat"}</h2>
+          </div>
+          <div className="gallery-grid">
+            {galleryImages.map((image) => (
+              <figure className={`gallery-card ${image.layout ?? ""}`} key={image.src}>
+                <img src={image.src} alt={localized(image.alt, language)} loading="lazy" />
+                <figcaption>{localized(image.label, language)}</figcaption>
+              </figure>
+            ))}
+          </div>
+        </section>
+
+        <section className="section intro-section">
+          <div className="intro-media">
+            <img src="/images/room-05.jpg" alt={language === "es" ? "Habitacion privada con escritorio" : "Private room with desk"} loading="lazy" />
+          </div>
+          <div className="intro-copy">
+            <p className="eyebrow">{language === "es" ? "La estancia" : "The stay"}</p>
+            <h2>{language === "es" ? "Habitacion privada con escritorio y ambiente de hogar" : "Private room with a desk and a lived-in home feel"}</h2>
+            <p>
+              {language === "es"
+                ? "Ideal para visitar Barcelona unos dias, trabajar en remoto o descansar cerca del mar y del centro. La habitacion esta en un piso familiar cuidado, con salon, cocina y balcon compartidos."
+                : "Ideal for visiting Barcelona for a few days, working remotely or resting close to the sea and the city centre. The room is in a well-kept family flat with a shared living room, kitchen and balcony."}
+            </p>
+            <div className="soft-list">
+              <span><Laptop aria-hidden="true" size={18} />{language === "es" ? "Escritorio para trabajar" : "Desk for remote work"}</span>
+              <span><Waves aria-hidden="true" size={18} />{language === "es" ? "Playa a 15 minutos" : "Beach 15 minutes away"}</span>
+              <span><Train aria-hidden="true" size={18} />{language === "es" ? "Metro, tranvia y bus cerca" : "Metro, tram and bus nearby"}</span>
+            </div>
+          </div>
+        </section>
+
+        <section className="section services-section" id="servicios">
+          <div className="section-heading compact">
+            <p className="eyebrow">{language === "es" ? "Servicios" : "Services"}</p>
+            <h2>{language === "es" ? "Lo esencial incluido y extras si los necesitas" : "Essentials included, extras when needed"}</h2>
+          </div>
+          <div className="service-layout">
+            <div className="service-panel included-panel">
+              <div className="panel-heading">
+                <Check aria-hidden="true" size={22} />
+                <h3>{language === "es" ? "Incluido" : "Included"}</h3>
+              </div>
+              <div className="amenity-grid">
+                {includedServices.map((service) => {
+                  const Icon = serviceIcons[service.id] ?? Check;
+                  return (
+                    <article className="amenity-card" key={service.id}>
+                      <Icon aria-hidden="true" size={22} />
+                      <strong>{localizedText(service.name, language)}</strong>
+                      <span>{localizedText(service.description, language)}</span>
+                    </article>
+                  );
+                })}
+              </div>
+            </div>
+            <div className="service-panel extras-panel">
+              <div className="panel-heading">
+                <ArrowRight aria-hidden="true" size={22} />
+                <h3>{language === "es" ? "Extras" : "Extras"}</h3>
+              </div>
+              <div className="extra-list">
+                {extraServices.map((service) => {
+                  const Icon = serviceIcons[service.id] ?? Check;
+                  return (
+                    <article className="extra-card" key={service.id}>
+                      <Icon aria-hidden="true" size={23} />
+                      <div>
+                        <strong>{localizedText(service.name, language)}</strong>
+                        <span>{localizedText(service.description, language)}</span>
+                      </div>
+                      <small>{service.price} {listing.currency}</small>
+                    </article>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="section location-section" id="ubicacion">
+          <div className="location-copy">
+            <p className="eyebrow">{language === "es" ? "Ubicacion" : "Location"}</p>
+            <h2>{language === "es" ? "Poblenou: playa, ciudad y transporte a mano" : "Poblenou: beach, city and transport close by"}</h2>
+            <p>
+              {language === "es"
+                ? "La zona de Sardenya y Llull permite moverse facil por Barcelona: Ciutadella, Bogatell, Glories y el centro quedan muy cerca."
+                : "The Sardenya and Llull area makes Barcelona easy to explore: Ciutadella, Bogatell, Glories and the city centre are close by."}
+            </p>
+            <div className="transport-grid">
+              {transportLocations.map((location) => {
+                const Icon = locationIcons[location.mode] ?? MapPin;
+                return (
+                  <article className="transport-card" key={location.id}>
+                    <Icon aria-hidden="true" size={22} />
+                    <div>
+                      <strong>{localizedText(location.name, language)}</strong>
+                      <span>{localizedText(location.detail, language)}</span>
+                    </div>
+                    <small>{location.minutes} min</small>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+          <div className="nearby-panel">
+            <h3>{language === "es" ? "Cerca de casa" : "Nearby"}</h3>
+            <div className="nearby-list">
+              {nearbyLocations.map((location) => (
+                <article key={location.id}>
+                  <span>{localizedText(location.name, language)}</span>
+                  <strong>{localizedText(location.detail, language)}</strong>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="section rules-section">
+          <div className="section-heading compact">
+            <p className="eyebrow">{language === "es" ? "Convivencia" : "House rules"}</p>
+            <h2>{language === "es" ? "Un ambiente tranquilo para descansar" : "A calm place to rest"}</h2>
+          </div>
+          <div className="rules-grid">
+            {ruleGroups.map((group) => {
+              const Icon = group.icon;
+              return (
+                <article className="rule-card" key={group.title.es}>
+                  <Icon aria-hidden="true" size={24} />
+                  <h3>{localized(group.title, language)}</h3>
+                  <ul>
+                    {group.items.map((item) => <li key={item.es}>{localized(item, language)}</li>)}
+                  </ul>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+
+        <section className="contact-section" id="contacto">
+          <div>
+            <p className="eyebrow">{language === "es" ? "Reserva directa" : "Direct booking"}</p>
+            <h2>{language === "es" ? "Cuentanos tus fechas y te confirmamos disponibilidad" : "Send your dates and we will confirm availability"}</h2>
+            <p>
+              {language === "es"
+                ? "Te responderemos por WhatsApp con disponibilidad, precio final y cualquier detalle que necesites antes de reservar."
+                : "We will reply on WhatsApp with availability, final price and any details you need before booking."}
+            </p>
+          </div>
+          <div className="contact-card">
+            <strong>{listing.baseNightlyRate} {listing.currency}</strong>
+            <span>{language === "es" ? `por noche + ${listing.cleaningFee} ${listing.currency} limpieza` : `per night + ${listing.cleaningFee} ${listing.currency} cleaning`}</span>
+            <a className="primary-action" href={whatsappHref} target="_blank" rel="noreferrer">
+              <MessageCircle aria-hidden="true" size={20} />
+              {language === "es" ? "Enviar WhatsApp" : "Send WhatsApp"}
+            </a>
+            <small>{listing.contactPhone}</small>
+          </div>
+        </section>
+      </main>
+    </div>
   );
 }

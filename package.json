@@ -19,7 +19,8 @@
     "test": "npm run build -w @habitacion/domain && npm run test -w @habitacion/domain && npm run test -w @habitacion/api && npm run test -w @habitacion/web",
     "test:coverage": "npm run build -w @habitacion/domain && npm run test:coverage -w @habitacion/domain && npm run test:coverage -w @habitacion/api && npm run test:coverage -w @habitacion/web",
     "lint": "eslint .",
-    "e2e": "start-server-and-test \"npm run dev\" http://localhost:5173 \"cypress run\"",
+    "dev:e2e:web": "npm run build -w @habitacion/domain && npm run dev -w @habitacion/web -- --port 5175 --strictPort",
+    "e2e": "start-server-and-test \"npm run dev:e2e:web\" http://localhost:5175 \"cypress run --config baseUrl=http://localhost:5175\"",
     "e2e:open": "start-server-and-test \"npm run dev\" http://localhost:5173 \"cypress open\"",
     "check": "npm run lint && npm run test && npm run build && npm run e2e",
     "start": "npm run start -w @habitacion/api"
