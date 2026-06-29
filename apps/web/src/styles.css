@@ -123,8 +123,7 @@ h3 { font-size: 18px; }
   align-items: end;
   overflow: hidden;
 }
-.hero-image-main,
-.hero-image-overlap {
+.hero-image-main {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -132,32 +131,6 @@ h3 { font-size: 18px; }
   box-shadow: none;
 }
 .hero-image-main { min-height: 100%; aspect-ratio: auto; }
-.hero-image-overlap {
-  position: absolute;
-  left: 24px;
-  bottom: 24px;
-  width: min(34%, 230px);
-  height: 230px;
-  border: 8px solid rgba(255,255,255,.92);
-  border-radius: 8px;
-}
-.price-badge {
-  position: absolute;
-  right: 24px;
-  bottom: 24px;
-  width: min(188px, 42%);
-  min-height: 122px;
-  display: grid;
-  align-content: center;
-  gap: 3px;
-  padding: 18px;
-  border-radius: 8px;
-  background: rgba(255,255,255,.94);
-  box-shadow: 0 18px 48px rgba(0,0,0,.18);
-}
-.price-badge span, .price-badge small { color: var(--muted); font-size: 12px; font-weight: 800; text-transform: uppercase; }
-.price-badge strong { color: var(--forest); font-size: 30px; }
-
 .quick-nav {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -338,8 +311,6 @@ h3 { font-size: 18px; }
   .hero-actions { display: grid; }
   .hero-note { align-items: flex-start; }
   .hero-image-main { aspect-ratio: 4 / 3; min-height: 300px; }
-  .hero-image-overlap { display: none; }
-  .price-badge { position: static; width: 100%; margin-top: 10px; }
   .quick-nav { grid-template-columns: 1fr; }
   .stats-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .gallery-grid { grid-template-columns: 1fr; grid-auto-rows: minmax(250px, 72vw); }

@@ -81,18 +81,18 @@ const galleryImages: GalleryImage[] = [
   {
     src: "/images/room-04.jpg",
     alt: {
-      es: "Habitación privada con cama individual y escritorio",
-      en: "Private room with single bed and desk"
+      es: "Salón compartido con sofá y salida al balcón",
+      en: "Shared living room with sofa and balcony access"
     },
-    label: { es: "Habitación privada", en: "Private room" }
+    label: { es: "Salón compartido", en: "Shared living room" }
   },
   {
     src: "/images/room-03.jpg",
     alt: {
-      es: "Salón luminoso con sofá y salida al balcón",
-      en: "Bright living room with sofa and balcony access"
+      es: "Comedor y zona de estar compartidos",
+      en: "Shared dining and sitting area"
     },
-    label: { es: "Salón compartido", en: "Shared living room" },
+    label: { es: "Comedor compartido", en: "Shared dining area" },
     layout: "wide"
   },
   {
@@ -208,7 +208,7 @@ const quickLinks: QuickLink[] = [
   {
     href: "#galeria",
     icon: Home,
-    label: { es: "Fotos reales", en: "Real photos" },
+    label: { es: "Fotos", en: "Photos" },
     detail: { es: "balcón, habitación y zonas comunes", en: "balcony, room and shared spaces" }
   },
   {
@@ -310,12 +310,6 @@ export function App() {
           </div>
           <div className="hero-media" aria-label={language === "es" ? "Fotos destacadas del piso" : "Featured apartment photos"}>
             <img className="hero-image-main" src="/images/room-01.jpg" alt={language === "es" ? "Balcón con vistas verdes" : "Balcony with green views"} />
-            <img className="hero-image-overlap" src="/images/room-05.jpg" alt={language === "es" ? "Habitación privada con escritorio" : "Private room with desk"} />
-            <div className="price-badge">
-              <span>{language === "es" ? "Parejas" : "Couples"}</span>
-              <strong>{coupleNightlyPrice}</strong>
-              <small>{language === "es" ? "individual: consultar" : "solo: ask us"}</small>
-            </div>
           </div>
         </section>
 
@@ -349,7 +343,7 @@ export function App() {
 
         <section className="section gallery-section" id="galeria">
           <div className="section-heading">
-            <p className="eyebrow">{language === "es" ? "Fotos reales" : "Real photos"}</p>
+            <p className="eyebrow">{language === "es" ? "Fotos" : "Photos"}</p>
             <h2>{language === "es" ? "Un piso luminoso para sentirse cerca de casa" : "A bright flat that feels close to home"}</h2>
           </div>
           <div className="gallery-grid">
@@ -371,8 +365,8 @@ export function App() {
             <h2>{language === "es" ? <>Habitación privada con cama <em>simple o doble</em></> : <>Private room with a <em>single or double bed</em></>}</h2>
             <p>
               {language === "es"
-                ? "Ideal para visitar Barcelona unos días, trabajar en remoto o descansar cerca del mar y del centro. La habitación puede prepararse con cama simple o doble según la estancia, dentro de un piso familiar cuidado con salón, cocina y balcón compartidos."
-                : "Ideal for visiting Barcelona for a few days, working remotely or resting close to the sea and the city centre. The room can be prepared with a single or double bed depending on the stay, inside a well-kept family flat with a shared living room, kitchen and balcony."}
+                ? "Ideal para visitar Barcelona unos días, descansar cerca del mar y moverse fácil por el centro. La habitación puede prepararse con cama simple o doble según la estancia, dentro de un piso familiar cuidado con salón, cocina y balcón compartidos."
+                : "Ideal for visiting Barcelona for a few days, resting close to the sea and moving easily around the city centre. The room can be prepared with a single or double bed depending on the stay, inside a well-kept family flat with a shared living room, kitchen and balcony."}
             </p>
             <div className="soft-list">
               <span><Laptop aria-hidden="true" size={18} />{language === "es" ? "Escritorio para trabajar" : "Desk for remote work"}</span>
@@ -389,8 +383,8 @@ export function App() {
             <h2>{language === "es" ? <>Hola, somos <em>Marcos y Sofi</em></> : <>Hi, we are <em>Marcos and Sofi</em></>}</h2>
             <p>
               {language === "es"
-                ? "Vivimos en Barcelona y nos encanta conocer gente de diferentes partes del mundo. Queremos que quienes se alojan en casa se sientan cómodos, relajados y bien acompañados durante su estancia."
-                : "We live in Barcelona and love meeting people from different parts of the world. We want guests at home to feel comfortable, relaxed and well looked after during their stay."}
+                ? "Nos encanta conocer gente de diferentes partes del mundo. Queremos que quienes se alojan en casa se sientan cómodos, relajados y bien acompañados durante su estancia."
+                : "We love meeting people from different parts of the world. We want guests at home to feel comfortable, relaxed and well looked after during their stay."}
             </p>
             <p>
               {language === "es"
