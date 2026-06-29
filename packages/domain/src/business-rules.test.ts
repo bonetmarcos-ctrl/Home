@@ -57,7 +57,7 @@ describe("business rules", () => {
     expect(quote.nights).toBe(3);
     expect(quote.nightlySubtotal).toBe(222);
     expect(quote.extrasTotal).toBe(10);
-    expect(quote.total).toBe(254);
+    expect(quote.total).toBe(232);
     expect(quote.unavailableDates).toEqual([]);
   });
 

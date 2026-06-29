@@ -116,7 +116,7 @@ export const locationSchema = z.object({
 
 export const siteSettingSchema = z.object({
   id: idSchema,
-  brandName: z.string().optional().default("Habitacion Poblenou"),
+  brandName: z.string().optional().default("Habitación Poblenou"),
   defaultLanguage: z.enum(["es", "en"]).default("es"),
   whatsappTemplate: bilingualTextSchema,
   updatedAt: z.string().optional().default("")

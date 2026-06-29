@@ -4,7 +4,7 @@ export const BASE = {
   listingId: "room-poblenou",
   currency: "EUR",
   defaultNightlyRate: 80,
-  cleaningFee: 22,
+  cleaningFee: 0,
   todayFixture: "2026-06-18"
 } as const;
 
@@ -35,11 +35,11 @@ export function createInitialState(): AppState {
     listings: [
       {
         id: BASE.listingId,
-        name: text("Habitacion en Poblenou", "Room in Poblenou"),
-        tagline: text("Alquiler por dias cerca de Ciutadella", "Daily rental near Ciutadella"),
+        name: text("Habitación en Poblenou", "Room in Poblenou"),
+        tagline: text("Alquiler por días cerca de Ciutadella", "Daily rental near Ciutadella"),
         description: text(
-          "Habitacion acogedora en piso familiar tranquilo, con estetica nordica-natural, balcon con vistas verdes y acceso a los servicios del hogar.",
-          "Cosy room in a quiet family flat with a natural Nordic feel, green balcony views and access to home amenities."
+          "Habitación acogedora en piso familiar tranquilo, balcón con vistas verdes y acceso a los servicios del hogar.",
+          "Cosy room in a quiet family flat with a green balcony and access to home amenities."
         ),
         neighborhood: "Poblenou",
         city: "Barcelona",
@@ -137,7 +137,7 @@ export function createInitialState(): AppState {
       },
       {
         id: "coffee-tea",
-        name: text("Cafe y te", "Coffee and tea"),
+        name: text("Café y té", "Coffee and tea"),
         description: text("Gratuito", "Complimentary"),
         category: "included",
         billingType: "included",
@@ -155,7 +155,7 @@ export function createInitialState(): AppState {
       },
       {
         id: "balcony",
-        name: text("Balcon", "Balcony"),
+        name: text("Balcón", "Balcony"),
         description: text("Vistas verdes", "Green views"),
         category: "included",
         billingType: "included",
@@ -165,7 +165,7 @@ export function createInitialState(): AppState {
       {
         id: "climate",
         name: text("Clima", "Climate"),
-        description: text("Ventilador y calefaccion", "Fan and heating"),
+        description: text("Ventilador y calefacción", "Fan and heating"),
         category: "included",
         billingType: "included",
         price: 0,
@@ -174,7 +174,7 @@ export function createInitialState(): AppState {
       {
         id: "elevator",
         name: text("Ascensor", "Elevator"),
-        description: text("Acceso facil", "Easy access"),
+        description: text("Acceso fácil", "Easy access"),
         category: "included",
         billingType: "included",
         price: 0,
@@ -192,7 +192,7 @@ export function createInitialState(): AppState {
       {
         id: "airport-pickup",
         name: text("Recogida en aeropuerto", "Airport pickup"),
-        description: text("Te recogemos y llevamos comodamente al piso", "We pick you up and bring you comfortably to the flat"),
+        description: text("Te recogemos y llevamos cómodamente al piso", "We pick you up and bring you comfortably to the flat"),
         category: "extra",
         billingType: "perStay",
         price: 35,
@@ -200,8 +200,8 @@ export function createInitialState(): AppState {
       },
       {
         id: "car-rental-help",
-        name: text("Gestion de alquiler de coche", "Car rental help"),
-        description: text("Ayuda para organizar un vehiculo", "Help arranging a vehicle"),
+        name: text("Gestión de alquiler de coche", "Car rental help"),
+        description: text("Ayuda para organizar un vehículo", "Help arranging a vehicle"),
         category: "extra",
         billingType: "perStay",
         price: 15,
@@ -209,7 +209,7 @@ export function createInitialState(): AppState {
       },
       {
         id: "laundry",
-        name: text("Lavanderia", "Laundry"),
+        name: text("Lavandería", "Laundry"),
         description: text("Lavado y secado bajo pedido", "Wash and dry on request"),
         category: "extra",
         billingType: "perStay",
@@ -263,7 +263,7 @@ export function createInitialState(): AppState {
       {
         id: "visits-authorization",
         category: text("Visitas", "Visitors"),
-        rule: text("No se permiten visitas sin autorizacion previa", "No visitors without prior authorization"),
+        rule: text("No se permiten visitas sin autorización previa", "No visitors without prior authorization"),
         severity: "important",
         active: true
       },
@@ -298,7 +298,7 @@ export function createInitialState(): AppState {
       {
         id: "key-loss",
         category: text("Check-in / Check-out", "Check-in / Check-out"),
-        rule: text("La perdida de llaves puede implicar coste de reposicion", "Lost keys may involve replacement cost"),
+        rule: text("La pérdida de llaves puede implicar coste de reposición", "Lost keys may involve replacement cost"),
         severity: "important",
         active: true
       },
@@ -311,8 +311,8 @@ export function createInitialState(): AppState {
       },
       {
         id: "switch-off",
-        category: text("Informacion adicional", "Additional info"),
-        rule: text("Apagar luces, AC y calefaccion al salir", "Turn off lights, AC and heating when leaving"),
+        category: text("Información adicional", "Additional info"),
+        rule: text("Apagar luces, AC y calefacción al salir", "Turn off lights, AC and heating when leaving"),
         severity: "info",
         active: true
       }
@@ -331,7 +331,7 @@ export function createInitialState(): AppState {
         id: "metro-l1",
         kind: "transport",
         name: text("Metro L1", "Metro L1"),
-        detail: text("Glories y Marina", "Glories and Marina"),
+        detail: text("Glòries y Marina", "Glories and Marina"),
         minutes: 12,
         mode: "metro",
         active: true
@@ -339,7 +339,7 @@ export function createInitialState(): AppState {
       {
         id: "tram-wellington",
         kind: "transport",
-        name: text("Tranvia T4, T5 y T6", "Tram T4, T5 and T6"),
+        name: text("Tranvía T4, T5 y T6", "Tram T4, T5 and T6"),
         detail: text("Parada Wellington a metros del piso", "Wellington stop steps from the flat"),
         minutes: 4,
         mode: "tram",
@@ -402,7 +402,7 @@ export function createInitialState(): AppState {
       {
         id: "placa-catalunya",
         kind: "landmark",
-        name: text("Placa Catalunya", "Placa Catalunya"),
+        name: text("Plaça Catalunya", "Placa Catalunya"),
         detail: text("20 min en metro", "20 min by metro"),
         minutes: 20,
         mode: "metro",
@@ -411,7 +411,7 @@ export function createInitialState(): AppState {
       {
         id: "born-gotic",
         kind: "landmark",
-        name: text("El Born y Barrio Gotico", "El Born and Gothic Quarter"),
+        name: text("El Born y Barrio Gótico", "El Born and Gothic Quarter"),
         detail: text("25 min a pie", "25 min walk"),
         minutes: 25,
         mode: "walk",
@@ -420,7 +420,7 @@ export function createInitialState(): AppState {
       {
         id: "torre-glories",
         kind: "landmark",
-        name: text("Torre Glories", "Torre Glories"),
+        name: text("Torre Glòries", "Torre Glories"),
         detail: text("10 min a pie", "10 min walk"),
         minutes: 10,
         mode: "walk",
@@ -429,7 +429,7 @@ export function createInitialState(): AppState {
       {
         id: "sants",
         kind: "landmark",
-        name: text("Estacion de Sants", "Barcelona Sants Station"),
+        name: text("Estación de Sants", "Barcelona Sants Station"),
         detail: text("25 min en metro", "25 min by metro"),
         minutes: 25,
         mode: "metro",
@@ -439,7 +439,7 @@ export function createInitialState(): AppState {
         id: "airport",
         kind: "landmark",
         name: text("Aeropuerto de Barcelona", "Barcelona Airport"),
-        detail: text("60 min en transporte publico", "60 min by public transport"),
+        detail: text("60 min en transporte público", "60 min by public transport"),
         minutes: 60,
         mode: "other",
         active: true
@@ -448,10 +448,10 @@ export function createInitialState(): AppState {
     siteSettings: [
       {
         id: "main",
-        brandName: "Habitacion Poblenou",
+        brandName: "Habitación Poblenou",
         defaultLanguage: "es",
         whatsappTemplate: text(
-          "Hola, me interesa reservar la habitacion en Poblenou.",
+          "Hola, me interesa reservar la habitación en Poblenou.",
           "Hi, I am interested in booking the room in Poblenou."
         ),
         updatedAt: "2026-06-18T00:00:00.000Z"
