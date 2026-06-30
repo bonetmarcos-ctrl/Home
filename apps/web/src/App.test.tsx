@@ -25,6 +25,7 @@ describe("promotional landing page", () => {
     expect(screen.queryByText("Descanso tranquilo")).not.toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Habitación privada con cama simple o doble" })).toBeInTheDocument();
     expect(screen.getAllByText("Cama simple o doble").length).toBeGreaterThan(0);
+    expect(screen.getByText("Baño compartido")).toBeInTheDocument();
     expect(screen.getByRole("img", { name: "Habitación preparada con cama doble" })).toHaveAttribute("src", "/images/room-double.jpg");
     expect(screen.getByRole("heading", { name: "Hola, somos Marcos y Sofi" })).toBeInTheDocument();
     expect(screen.getByText("Esperamos darte la bienvenida pronto.")).toBeInTheDocument();
@@ -44,6 +45,7 @@ describe("promotional landing page", () => {
     expect(screen.getByRole("heading", { name: "Your calm base in Barcelona" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Hi, we are Marcos and Sofi" })).toBeInTheDocument();
     expect(screen.getAllByText("Single or double bed").length).toBeGreaterThan(0);
+    expect(screen.getByText("Shared bathroom")).toBeInTheDocument();
     expect(screen.getAllByText("Ask us").length).toBeGreaterThan(0);
     expect(screen.queryByText(/80\s*€/)).not.toBeInTheDocument();
     expect(screen.queryByText(/final price/i)).not.toBeInTheDocument();

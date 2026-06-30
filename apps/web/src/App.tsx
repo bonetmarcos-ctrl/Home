@@ -1,6 +1,7 @@
 import { createInitialState } from "@habitacion/domain";
 import {
   ArrowRight,
+  Bath,
   BedDouble,
   Bus,
   CalendarDays,
@@ -351,12 +352,13 @@ export function App() {
             <h2>{language === "es" ? <>Habitación privada con cama <em>simple o doble</em></> : <>Private room with a <em>single or double bed</em></>}</h2>
             <p>
               {language === "es"
-                ? "Ideal para visitar Barcelona unos días, descansar cerca del mar y moverse fácil por el centro. La habitación puede prepararse con cama simple o doble según la estancia, dentro de un piso familiar cuidado con salón, cocina y balcón compartidos."
-                : "Ideal for visiting Barcelona for a few days, resting close to the sea and moving easily around the city centre. The room can be prepared with a single or double bed depending on the stay, inside a well-kept family flat with a shared living room, kitchen and balcony."}
+                ? "Ideal para visitar Barcelona unos días, descansar cerca del mar y moverse fácil por el centro. La habitación puede prepararse con cama simple o doble según la estancia, dentro de un piso familiar cuidado con salón, cocina, baño y balcón compartidos."
+                : "Ideal for visiting Barcelona for a few days, resting close to the sea and moving easily around the city centre. The room can be prepared with a single or double bed depending on the stay, inside a well-kept family flat with a shared living room, kitchen, bathroom and balcony."}
             </p>
             <div className="soft-list">
               <span><Laptop aria-hidden="true" size={18} />{language === "es" ? "Escritorio para trabajar" : "Desk for remote work"}</span>
               <span><BedDouble aria-hidden="true" size={18} />{language === "es" ? "Cama simple o doble" : "Single or double bed"}</span>
+              <span><Bath aria-hidden="true" size={18} />{language === "es" ? "Baño compartido" : "Shared bathroom"}</span>
               <span><Waves aria-hidden="true" size={18} />{language === "es" ? "Playa a 15 minutos" : "Beach 15 minutes away"}</span>
               <span><Train aria-hidden="true" size={18} />{language === "es" ? "Metro, tranvía y bus cerca" : "Metro, tram and bus nearby"}</span>
             </div>
